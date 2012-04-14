@@ -1,9 +1,10 @@
 # Copyright 2012 Kevin Decherf <kevin@kdecherf.com> 
 # Distributed under the terms of the GNU General Public License v2
 
+require googlecode [ suffix=tar.gz ]
+
 SUMMARY="Library for gnome-mplayer and gecko-mediaplayer"
 HOMEPAGE="http://code.google.com/p/${PN}"
-DOWNLOADS="http://${PN}.googlecode.com/files/${PNV}.tar.gz"
 
 LICENCES="GPL-2"
 SLOT="0"
