@@ -1,0 +1,53 @@
+Source: Local
+Upstream: no
+Reason: This patch is used to delete all references to remote repositories for building
+--
+--- a/build.gradle
++++ b/build.gradle
+@@ -134,8 +134,7 @@
+     }
+ 
+     repositories {
+-        maven { url 'http://repo.gradle.org/gradle/libs' }
+-        maven { url 'http://repository.codehaus.org/' }
++        maven { url localMavenRepo }
+     }
+ 
+     configurations {
+--- a/buildSrc/build.gradle
++++ b/buildSrc/build.gradle
+@@ -21,7 +21,7 @@
+ apply plugin: 'eclipse'
+ 
+ repositories {
+-    maven { url 'http://repo.gradle.org/gradle/libs' }
++    maven { url localMavenRepo }
+ }
+ 
+ dependencies {
+--- /dev/null
++++ b/init.gradle
+@@ -0,0 +1,12 @@
++addListener new BuildAdapter() {
++
++  def void projectsEvaluated(Gradle gradle) {
++    def config = {
++      mavenRepo name: 'repository', urls: gradle.rootProject.localMavenRepo
++    }
++    gradle.rootProject.allprojects {
++      buildscript.repositories config
++      repositories config
++    }
++  }
++}
+--- a/subprojects/website/website.gradle
++++ b/subprojects/website/website.gradle
+@@ -17,7 +17,7 @@
+ 
+ buildscript {
+     dependencies.classpath 'net.java.dev.jets3t:jets3t:0.8.1'
+-    repositories.mavenCentral()
++    repositories { maven { url localMavenRepo } }
+ }
+ 
+ apply plugin: "base"
