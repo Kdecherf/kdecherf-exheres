@@ -262,6 +262,8 @@ DEPENDENCIES="
     build:
         app-arch/unzip
         !bootstrap? ( dev-java/gradle )
+    build+run:
+        virtual/jdk[>=1.6]
 "
 
 LICENCES="BSD"
