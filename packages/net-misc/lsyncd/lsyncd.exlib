@@ -1,0 +1,16 @@
+# Copyright 2012 Kevin Decherf <kevin@kdecherf.com>
+# Distributed under the terms of the GNU General Public License v1
+
+SUMMARY="Lsyncd (Live Syncing Daemon) synchronizes local directories with a remote targets"
+HOMEPAGE="http://code.google.com/p/lsyncd/"
+
+LICENCES="GPL-2"
+SLOT="0"
+MYOPTIONS=""
+
+DEPENDENCIES="
+    build+run:
+        dev-lang/lua
+        net-misc/rsync
+"
+
