@@ -1,0 +1,14 @@
+# Copyright 2012 Kevin Decherf <kevin@kdecherf.com>
+# Distributed under the terms of the GNU General Public License v2
+
+require siege
+
+PLATFORMS="~amd64"
+
+DEFAULT_SRC_PREPARE_PATCHES=( "${FILES}/doc-makefile.patch" )
+
+src_install() {
+    dodir /etc/${PN}
+    default
+}
+

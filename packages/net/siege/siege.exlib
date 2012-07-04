@@ -1,0 +1,18 @@
+# Copyright 2012 Kevin Decherf <kevin@kdecherf.com>
+# Distributed under the terms of the GNU General Public License v2
+
+SUMMARY="Siege is an http load testing and benchmarking utility"
+HOMEPAGE="http://www.joedog.org/siege-home/"
+DOWNLOADS="http://www.joedog.org/pub/${PN}/${PNV}.tar.gz"
+
+LICENCES="GPL-2"
+SLOT="0"
+MYOPTIONS="ssl"
+DEFAULT_SRC_CONFIGURE_PARAMS=( --hates=docdir --sysconfdir=/etc/${PN} )
+DEFAULT_SRC_CONFIGURE_OPTION_WITHS=( ssl )
+
+DEPENDENCIES="
+    build+run:
+        ssl? ( dev-libs/openssl )
+"
+

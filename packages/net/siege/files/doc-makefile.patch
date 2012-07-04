@@ -1,0 +1,16 @@
+# Source: local
+# Upstream: no
+# Reason: doc/Makefile is not correctly handled by paludis
+--- siege-2.72/doc/Makefile.in   2012-07-04 23:28:12.605656851 +0200
++++ siege-2.72/doc/Makefile.in   2012-07-04 23:28:29.415656355 +0200
+@@ -190,8 +190,8 @@
+ siegerc.in
+ 
+ DISTCLEANFILES = siegerc $(man_MANS)
+-SIEGERC = $(sysconfdir)/siegerc
+-URLSTXT = $(sysconfdir)/urls.txt
++SIEGERC = ${DESTDIR}/$(sysconfdir)/siegerc
++URLSTXT = ${DESTDIR}/$(sysconfdir)/urls.txt
+ all: all-am
+ 
+ .SUFFIXES:
