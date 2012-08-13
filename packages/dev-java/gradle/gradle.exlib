@@ -329,10 +329,14 @@ src_compile() {
         unset DISPLAY
         esandbox allow_net --connect "inet:127.0.0.1@1024-65535"
         esandbox allow_net "inet:0.0.0.0@0"
+        esandbox allow_net --connect "inet6:::1@1024-65535"
+        esandbox allow_net "inet6:::@0"
         export GRADLE_USER_HOME="${WORK}/.gradle"
         export ORG_GRADLE_PROJECT_localMavenRepo="${M2_REPOSITORY}"
         export ORG_GRADLE_PROJECT_localFiles="file://${WORK}/tempfiles/"
         egradle assemble
+        esandbox disallow_net --connect "inet6:::1@1024-65535"
+        esandbox disallow_net "inet6:::@0"
         esandbox disallow_net --connect "inet:127.0.0.1@1024-65535"
         esandbox disallow_net "inet:0.0.0.0@0"
     fi
