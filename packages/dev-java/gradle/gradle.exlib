@@ -356,6 +356,8 @@ src_install() {
         edo cp -r "${finalwork}" "${IMAGE}"/usr/share
     else
         edo rm -rf "${WORK}/src"
+        # Deleting empty folders
+        edo find "${WORK}/samples" -type d -empty -delete
         edo cp -r "${WORK}" "${IMAGE}"/usr/share
     fi
     dodir /usr/bin
