@@ -1,0 +1,20 @@
+# Copyright 2012 Kevin Decherf <kevin@kdecherf.com>
+# Distributed under the terms of the GNU General Public License v2
+
+SUMMARY="Autobench is a simple Perl script for automating the process of benchmarking a web server"
+HOMEPAGE="http://www.xenoclast.org/autobench/"
+DOWNLOADS="http://www.xenoclast.org/autobench/downloads/${PNV}.tar.gz"
+
+LICENCES="GPL-2"
+SLOT="0"
+
+DEPENDENCIES="
+    run:
+        net/httperf
+        sci-apps/gnuplot
+        dev-lang/perl
+"
+
+src_install() {
+    emake PREFIX=${IMAGE}/usr ETCDIR=${IMAGE}/etc ROOTMAN_PREFIX=/share install
+}
