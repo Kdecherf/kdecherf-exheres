@@ -5,8 +5,6 @@ require siege
 
 PLATFORMS="~amd64"
 
-DEFAULT_SRC_PREPARE_PATCHES=( "${FILES}/doc-makefile.patch" )
-
 src_install() {
     dodir /etc/${PN}
     default
