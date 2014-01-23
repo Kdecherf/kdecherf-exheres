@@ -1,0 +1,15 @@
+# Copyright 2014 Kevin Decherf <kevin@kdecherf.com>
+# Distributed under the terms of the GNU General Public License v2
+
+SUMMARY="Small utility to convert PDF files to SVG files"
+HOMEPAGE="http://www.cityinthesky.co.uk/opensource/${PN}/"
+
+LICENCES="GPL-2"
+SLOT="0"
+
+DEPENDENCIES="
+    build+run:
+        x11-libs/cairo
+        app-text/poppler[cairo]
+"
+

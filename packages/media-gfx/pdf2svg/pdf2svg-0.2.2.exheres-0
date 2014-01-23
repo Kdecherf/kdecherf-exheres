@@ -1,0 +1,8 @@
+# Copyright 2014 Kevin Decherf <kevin@kdecherf.com>
+# Distributed under the terms of the GNU General Public License v2
+
+require pdf2svg
+
+PLATFORMS="~amd64"
+DOWNLOADS="http://www.cityinthesky.co.uk/wp-content/uploads/2013/10/${PNV}.tar.gz"
+
