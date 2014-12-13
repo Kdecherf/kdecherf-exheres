@@ -1,0 +1,14 @@
+Source: local
+Upstream: no
+Reason: /usr/lib is a symlink
+--
+--- a/libr/magic/d/Makefile
++++ b/libr/magic/d/Makefile
+@@ -1,6 +1,6 @@
+ include ../../config.mk
+ 
+-MAGICDIR=$(call rmdblslash,${DESTDIR}${PREFIX}/lib/radare2/${VERSION}/magic)
++MAGICDIR=$(call rmdblslash,${DESTDIR}${LIBDIR}/radare2/${VERSION}/magic)
+ install: ${F_SDB}
+ 	mkdir -p "$(MAGICDIR)"
+ 	cp -f default/* "${MAGICDIR}"

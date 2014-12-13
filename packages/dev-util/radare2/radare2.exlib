@@ -1,0 +1,19 @@
+# Copyright 2014 Kevin Decherf <kevin@kdecherf.com>
+# Distributed under the terms of the GNU General Public License v2
+
+SUMMARY="the reverse engineering framework"
+HOMEPAGE="http://www.radare.org"
+
+DOWNLOADS="http://www.radare.org/get/${PNV}.tar.xz"
+
+LICENCES="GPL-2"
+SLOT="0"
+MYOPTIONS="openssl"
+
+DEPENDENCIES="
+    build+run:
+        openssl? ( dev-libs/openssl )
+"
+
+DEFAULT_SRC_CONFIGURE_OPTION_WITHS=( 'openssl' )
+
