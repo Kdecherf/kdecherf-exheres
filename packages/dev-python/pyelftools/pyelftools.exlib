@@ -1,0 +1,15 @@
+# Copyright 2014 Kevin Decherf <kevin@kdecherf.com>
+# Distributed under the terms of the GNU General Public License v2
+
+require pypi github [ user=eliben tag=v${PV} ]
+require setup-py [ import=setuptools blacklist=none has_bin=true ]
+
+SUMMARY="A Python library for parsing ELF and DWARF"
+
+LICENCES="public-domain"
+SLOT="0"
+
+test_one_multibuild() {
+    edo "${PYTHON}" test/run_all_unittests.py
+}
+
