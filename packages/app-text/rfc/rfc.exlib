@@ -1,0 +1,27 @@
+# Copyright 2015 Kevin Decherf <kevin@kdecherf.com>
+# Distributed under the terms of the GNU General Public License v2
+
+require github [ user=bfontaine tag="v${PV}" ]
+
+SUMMARY="Read RFCs from the command-line"
+
+LICENCES="as-is"
+SLOT="0"
+
+DEPENDENCIES="
+    recommendation:
+        sys-apps/less
+"
+
+export_exlib_phases src_install
+
+# FIXME: the test requires full access to the network
+#rfc_src_test() {
+#    edo bash ${WORK}/test/tests.sh
+#}
+
+rfc_src_install() {
+    dobin rfc
+    dodoc README.md LICENSE
+}
+
