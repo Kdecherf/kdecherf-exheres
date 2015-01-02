@@ -1,0 +1,12 @@
+# Copyright 2015 Kevin Decherf <kevin@kdecherf.com>
+# Distributed under the terms of the GNU General Public License v2
+
+require pypi github [ user=miracle2k tag=${PV} ]
+require setup-py [ import=setuptools blacklist=none has_bin=true ]
+
+SUMMARY="Asset management for Python web development"
+
+LICENCES="as-is"
+SLOT="0"
+
+
