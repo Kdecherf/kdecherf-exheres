@@ -11,6 +11,8 @@ SLOT="0"
 
 DEPENDENCIES="
     build+run:
-        x11-libs/gtk+:3
+        dev-libs/glib:2[>=2.34]
+        x11-libs/cairo[>=1.14]
+        x11-libs/gtk+:3[>=3.6]
 "
 
