@@ -5,7 +5,7 @@ require ant java [ slot=1.6 ]
 
 SUMMARY="Multi-paradigm programming language"
 HOMEPAGE="http://www.scala-lang.org"
-DOWNLOADS="http://www.scala-lang.org/downloads/distrib/files/${PN}-sources-${PV}.tgz"
+DOWNLOADS="http://www.scala-lang.org/files/archive/${PN}-sources-${PV}.tgz"
 
 LICENCES="BSD"
 SLOT="0"
