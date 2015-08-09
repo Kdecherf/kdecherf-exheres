@@ -1,10 +1,12 @@
 # Copyright 2014 Kevin Decherf <kevin@kdecherf.com>
 # Distributed under the terms of the GNU General Public License v2
 
+export_exlib_phases src_install src_prepare
+
 SUMMARY="the reverse engineering framework"
 HOMEPAGE="http://www.radare.org"
 
-DOWNLOADS="http://www.radare.org/get/${PNV}.tar.xz"
+DOWNLOADS="${HOMEPAGE}/get/${PNV}.tar.xz"
 
 LICENCES="GPL-2"
 SLOT="0"
@@ -16,4 +18,28 @@ DEPENDENCIES="
 "
 
 DEFAULT_SRC_CONFIGURE_OPTION_WITHS=( 'openssl' )
+
+radare2_src_prepare()
+{
+    edo sed -e "/^CC_AR=/s/ar/${AR}/" \
+            -e "/^RANLIB=/s/ranlib/${RANLIB}/" \
+            -i mk/gcc.mk
+    edo sed -e "/^HOST_CC?=/s/gcc/${CC}/" \
+            -e "/^capstone-build:/s/ capstone//" \
+            -i shlr/Makefile
+    edo sed -e "s:\${PFX}/share/doc/radare2:${IMAGE}/usr/share/doc/${PNV}:" \
+            -i Makefile
+}
+
+radare2_src_install()
+{
+    default
+
+    local empty=(
+        "${IMAGE}"/usr/share/${PN}/${PV}/format/dll
+        "${IMAGE}"/usr/$(exhost --target)/share
+    )
+
+    edo find ${empty[@]} -type d -empty -delete
+}
 
