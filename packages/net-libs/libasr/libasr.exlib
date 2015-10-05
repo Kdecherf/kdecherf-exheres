@@ -4,8 +4,17 @@
 require github [ user="OpenSMTPD" tag=${PNV} ]
 require autotools [ supported_autoconf=[ 2.5 ] supported_automake=[ 1.13 ] ]
 
+export_exlib_phases src_prepare
+
 SUMMARY="Asynchronous resolver library"
 
-LICENCES="ISC BSD BSD-2 BSD-3"
+LICENCES="ISC BSD-2 BSD-3"
 SLOT="0"
+
+libasr_src_prepare() {
+    edo sed -e "/^AC_PATH_PROG(\[AR\]/s/ar/${AR}/" \
+            -i configure.ac
+
+    eautoreconf
+}
 
