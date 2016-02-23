@@ -1,6 +1,8 @@
 # Copyright 2014 Kevin Decherf <kevin@kdecherf.com>
 # Distributed under the terms of the GNU General Public License v2
 
+require github [ user=db9052 tag="v${PV}" ]
+
 SUMMARY="Small utility to convert PDF files to SVG files"
 HOMEPAGE="http://www.cityinthesky.co.uk/opensource/${PN}/"
 

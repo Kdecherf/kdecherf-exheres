@@ -4,5 +4,4 @@
 require pdf2svg
 
 PLATFORMS="~amd64"
-DOWNLOADS="http://www.cityinthesky.co.uk/wp-content/uploads/2013/10/${PNV}.tar.gz"
 
