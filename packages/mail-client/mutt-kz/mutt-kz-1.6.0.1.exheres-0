@@ -1,0 +1,85 @@
+# Copyright 2016 Kevin Decherf <kevin@kdecherf.com>
+# Based upon mutt-1.6.0.exheres-0
+#    Copyright 2008 Fernando J. Pereda
+# Distributed under the terms of the GNU General Public License v2
+
+require autotools [ supported_autoconf=[ 2.5 ] supported_automake=[ 1.13 ] ]
+require github [ user="karelzak" tag="v${PV}" ]
+
+SUMMARY="mutt with notmuch support and another improvements"
+
+LICENCES="GPL-2"
+SLOT="0"
+PLATFORMS="~amd64 ~arm ~x86"
+MYOPTIONS="debug gpgme idn sasl
+    (
+        gdbm [[ description = [ use gdbm for header caching ] ]]
+        tokyocabinet [[ description = [ use tokyocabinet for header caching ] ]]
+    ) [[ number-selected = exactly-one ]]
+    (
+        ncurses [[ description = [ use ncurses for the user interface ] ]]
+        slang [[ description = [ use slang for the user interface ] ]]
+    ) [[ number-selected = exactly-one ]]
+    ( providers: libressl openssl ) [[ number-selected = exactly-one ]]
+    debug [[ description = [ Add debugging support and -d switch ] ]]
+    gpgme [[ description = [ Enable support for gpgme ] ]]
+    notmuch [[ description = [ Add support of notmuch backend ] ]]
+    sidebar [[ description = [ Add sidebar to mutt ] ]]
+"
+
+DEPENDENCIES="
+    build:
+        app-text/docbook-xml-dtd:4.2
+        dev-libs/libxml2:2.0
+        dev-libs/libxslt
+        sys-devel/gettext
+    build+run:
+        gdbm? ( sys-libs/gdbm )
+        gpgme? ( app-crypt/gpgme )
+        idn? ( net-dns/libidn )
+        !mail-client/mutt [[ description = [ File collision with mail-client/mutt ] ]]
+        ncurses? ( sys-libs/ncurses )
+        notmuch? ( mail-client/notmuch )
+        providers:libressl? ( dev-libs/libressl:= )
+        providers:openssl? ( dev-libs/openssl )
+        sasl? ( net-libs/cyrus-sasl )
+        slang? ( sys-libs/slang )
+        tokyocabinet? ( dev-db/tokyocabinet )
+    suggestion:
+        net-www/elinks [[ description = [ Provides a text based browser for viewing HTML-formatted mail ] ]]
+"
+
+DEFAULT_SRC_CONFIGURE_PARAMS=(
+    --enable-nls
+    --with-ssl
+    --sysconfdir=/etc/${PN}
+    --with-docdir=/usr/share/doc/${PNV}
+    --with-homespool=.maildir
+    --with-regex
+
+    --enable-flock
+    --disable-fcntl
+    --enable-nfs-fix
+    --enable-external-dotlock
+
+    --enable-imap
+    --enable-pop
+    --enable-smtp
+
+    # hcache
+    --enable-hcache
+    --without-bdb
+    --without-qdbm
+
+    --without-gnutls
+)
+
+DEFAULT_SRC_CONFIGURE_OPTIONS=( 'ncurses --with-curses' 'slang --with-slang' )
+DEFAULT_SRC_CONFIGURE_OPTION_ENABLES=( debug gpgme notmuch sidebar )
+DEFAULT_SRC_CONFIGURE_OPTION_WITHS=( gdbm idn sasl tokyocabinet )
+
+src_prepare() {
+    default
+    edo autoreconf --install
+}
+
