@@ -37,7 +37,6 @@ radare2_src_install()
 
     local empty=(
         "${IMAGE}"/usr/share/${PN}/${PV}/format/dll
-        "${IMAGE}"/usr/$(exhost --target)/share
     )
 
     edo find ${empty[@]} -type d -empty -delete
