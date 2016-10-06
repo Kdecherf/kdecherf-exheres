@@ -6,3 +6,5 @@ require homebank
 PLATFORMS="~amd64"
 DOWNLOADS="http://homebank.free.fr/public/${PNV}.tar.gz"
 
+DEFAULT_SRC_PREPARE_PATCHES=( "${FILES}/fix-install-locale.patch" )
+
