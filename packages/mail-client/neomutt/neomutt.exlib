@@ -1,0 +1,86 @@
+# Copyright 2017 Kevin Decherf <kevin@kdecherf.com>
+# Distributed under the terms of the GNU General Public License v2
+# Based in part upon 'neomutt-20170225.ebuild' from Gentoo, which is:
+#     Copyright 1999-2017 Gentoo Foundation
+
+require github [ user="neomutt" release="${PNV}" suffix="tar.gz" ]
+
+DESCRIPTION="Teaching an Old Dog New Tricks"
+HOMEPAGE="https://www.neomutt.org/"
+
+LICENCES="GPL-2"
+SLOT="0"
+MYOPTIONS="
+    debug [[ description = [ Add debugging support and -d switch ] ]]
+    gpgme [[ description = [ Enable support for gpgme ] ]]
+    idn
+    notmuch [[ description = [ Add support of notmuch backend ] ]]
+    sasl
+    sidebar [[ description = [ Add sidebar to mutt ] ]]
+    smime
+    ( providers: libressl openssl ) [[ number-selected = exactly-one ]]
+    (
+        gdbm [[ description = [ use gdbm for header caching ] ]]
+        tokyocabinet [[ description = [ use tokyocabinet for header caching ] ]]
+    ) [[ number-selected = exactly-one ]]
+    (
+        ncurses [[ description = [ use ncurses for the user interface ] ]]
+        slang [[ description = [ use slang for the user interface ] ]]
+    ) [[ number-selected = exactly-one ]]
+"
+
+DEPENDENCIES="
+    build:
+        app-text/docbook-xml-dtd:4.2
+        dev-libs/libxml2:2.0
+        dev-libs/libxslt
+        sys-devel/gettext
+    build+run:
+        gdbm? ( sys-libs/gdbm )
+        gpgme? ( app-crypt/gpgme )
+        idn? ( net-dns/libidn )
+        ncurses? ( sys-libs/ncurses )
+        notmuch? ( mail-client/notmuch )
+        providers:libressl? ( dev-libs/libressl:= )
+        providers:openssl? ( dev-libs/openssl )
+        sasl? ( net-libs/cyrus-sasl )
+        slang? ( sys-libs/slang )
+        tokyocabinet? ( dev-db/tokyocabinet )
+        !mail-client/mutt [[ description = [ File collision with mail-client/mutt ] ]]
+    suggestion:
+        || (
+            net-www/elinks
+            net-www/w3m
+            net-www/lynx
+        ) [[ description = [ Provides a text-based browser for viewing HTML-formatted mail ] ]]
+"
+
+DEFAULT_SRC_CONFIGURE_PARAMS=(
+    --enable-nls
+    --with-ssl
+    --sysconfdir=/etc/${PN}
+    --with-docdir=/usr/share/doc/${PNV}
+    --with-homespool=.maildir
+    --with-regex
+
+    --enable-flock
+    --disable-fcntl
+    --enable-nfs-fix
+    --enable-external-dotlock
+
+    --enable-imap
+    --enable-pop
+    --enable-smtp
+
+    # hcache
+    --enable-hcache
+    --without-bdb
+    --without-qdbm
+
+    --without-gnutls
+)
+
+DEFAULT_SRC_CONFIGURE_OPTIONS=( 'ncurses --with-curses' 'slang --with-slang' )
+DEFAULT_SRC_CONFIGURE_OPTION_ENABLES=( debug gpgme notmuch sidebar smime )
+DEFAULT_SRC_CONFIGURE_OPTION_WITHS=( gdbm idn sasl tokyocabinet )
+
