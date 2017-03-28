@@ -5,3 +5,5 @@ require libasr
 
 PLATFORMS="~amd64"
 
+DEFAULT_SRC_PREPARE_PATCHES=( "${FILES}/${PNV}-musl-res_randomid.patch" )
+

@@ -12,6 +12,8 @@ LICENCES="ISC BSD-2 BSD-3"
 SLOT="0"
 
 libasr_src_prepare() {
+    default
+
     edo sed -e "/^AC_PATH_PROG(\[AR\]/s/ar/${AR}/" \
             -i configure.ac
 

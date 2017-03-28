@@ -1,0 +1,42 @@
+From 93bed6dba82d28b781572769b58ba944975d7f21 Mon Sep 17 00:00:00 2001
+From: Gilles Chehade <gilles@poolp.org>
+Date: Sat, 13 Feb 2016 14:19:45 +0100
+Subject: [PATCH] eric timeout, implement a stub res_randomid() using the glibc
+ very impressive random id generator when we don't have one on system
+
+---
+ configure.ac             | 1 +
+ openbsd-compat/defines.h | 7 +++++++
+ 2 files changed, 8 insertions(+)
+
+diff --git a/configure.ac b/configure.ac
+index bc25a56..f881577 100644
+--- a/configure.ac
++++ b/configure.ac
+@@ -456,6 +456,7 @@ AC_CHECK_FUNCS([ \
+ 	issetugid \
+ 	memmove \
+ 	reallocarray \
++	res_randomid \
+ 	snprintf \
+ 	strdup \
+ 	strerror \
+diff --git a/openbsd-compat/defines.h b/openbsd-compat/defines.h
+index 3731b4f..f5fcfca 100644
+--- a/openbsd-compat/defines.h
++++ b/openbsd-compat/defines.h
+@@ -833,4 +833,11 @@ struct winsize {
+ 
+ /* end of chl */
+ 
++
++/* directly from glibc ... */
++#ifndef HAVE_RES_RANDOMID
++#define res_randomid(x) (0xfff & getpid())
++#endif
++
++
+ #endif /* _DEFINES_H */
+-- 
+2.12.1
+
