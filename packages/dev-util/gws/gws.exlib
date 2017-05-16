@@ -1,0 +1,18 @@
+# Copyright 2017 Kevin Decherf <kevin@kdecherf.com>
+# Distributed under the terms of the GNU General Public License v2
+
+require bash-completion zsh-completion github [ user=StreakyCobra ]
+
+export_exlib_phases src_install
+
+SUMMARY="Colorful KISS helper for git workspaces"
+
+LICENCES="MIT"
+SLOT="0"
+
+gws_src_install() {
+    dobin src/gws
+    dobashcompletion completions/bash gws
+    dozshcompletion completions/zsh _gws
+}
+
