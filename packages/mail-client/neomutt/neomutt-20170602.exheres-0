@@ -5,5 +5,3 @@ require neomutt
 
 PLATFORMS="~amd64"
 
-DEFAULT_SRC_PREPARE_PATCHES=( "${FILES}/0001-index_format-add-support-of-K.patch" )
-
