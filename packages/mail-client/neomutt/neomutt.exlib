@@ -8,7 +8,7 @@ require github [ user="neomutt" tag="${PNV}" ]
 
 export_exlib_phases src_prepare
 
-DESCRIPTION="Teaching an Old Dog New Tricks"
+SUMMARY="A text-based email client, based on mutt with added features"
 HOMEPAGE="https://www.neomutt.org/"
 
 LICENCES="GPL-2"
