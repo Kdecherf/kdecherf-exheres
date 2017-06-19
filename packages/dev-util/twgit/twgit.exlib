@@ -1,0 +1,16 @@
+# Copyright 2017 Kevin Decherf <kevin@kdecherf.com>
+# Distributed under the terms of the GNU General Public License v2
+
+require bash-completion zsh-completion github [ user=Twenga tag="v${PV}" ]
+
+export_exlib_phases src_install
+
+SUMMARY="Assisting tools for managing features, hotfixes and releases on Git repositories"
+
+LICENCES="Apache-2.0"
+SLOT="0"
+
+twgit_src_install() {
+    default
+}
+
