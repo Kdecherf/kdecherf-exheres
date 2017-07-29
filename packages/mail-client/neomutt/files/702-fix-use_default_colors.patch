@@ -1,0 +1,51 @@
+Upstream: https://github.com/neomutt/neomutt/pull/702
+From a7102c721893d6a6fc33a8e9590f99c450e9fe9e Mon Sep 17 00:00:00 2001
+From: Fabrice Bellet <fabrice@bellet.info>
+Date: Fri, 4 Aug 2017 21:16:53 +0200
+Subject: [PATCH] color: call use_default_colors() in a single location
+
+we call use_default_colors() when parsing colors in rc files only, and
+unconditionally when defining the color of the tree element, because the
+foreground color of the tree element may be combined dynamically with
+the default background color of another element, not explicitely defined
+in an rc file. This patch fixes a bug visible with some versions of the
+ncurses library: use_default_colors() was used too late, and generated
+color leakage effects. (#689)
+---
+ color.c | 16 +++++++---------
+ 1 file changed, 7 insertions(+), 9 deletions(-)
+
+diff --git a/color.c b/color.c
+index 6ce34d01a..d0389ac5a 100644
+--- a/color.c
++++ b/color.c
+@@ -341,14 +341,6 @@ int mutt_combine_color(int fg_attr, int bg_attr)
+   mutt_lookup_color(bg_attr, NULL, &bg);
+   if ((fg == COLOR_DEFAULT) && (bg == COLOR_DEFAULT))
+     return A_NORMAL;
+-#ifdef HAVE_USE_DEFAULT_COLORS
+-  if (!option(OPTNOCURSES) && has_colors() &&
+-      ((fg == COLOR_DEFAULT) || (bg == COLOR_DEFAULT)) && use_default_colors() != OK)
+-  {
+-    mutt_error(_("default colors not supported."));
+-    return A_NORMAL;
+-  }
+-#endif
+   return mutt_alloc_color(fg, bg);
+ }
+ 
+@@ -886,7 +878,13 @@ static int _mutt_parse_color(struct Buffer *buf, struct Buffer *s, struct Buffer
+ #ifdef HAVE_USE_DEFAULT_COLORS
+   if (!option(OPTNOCURSES) && has_colors()
+       /* delay use_default_colors() until needed, since it initializes things */
+-      && (fg == COLOR_DEFAULT || bg == COLOR_DEFAULT) && use_default_colors() != OK)
++      && (fg == COLOR_DEFAULT || bg == COLOR_DEFAULT || object == MT_COLOR_TREE)
++      && use_default_colors() != OK)
++      /* the case of the tree object is special, because a non-default
++       * fg color of the tree element may be combined dynamically with
++       * the default bg color of an index line, not necessarily defined in
++       * a rc file.
++       */
+   {
+     strfcpy(err->data, _("default colors not supported"), err->dsize);
+     return -1;

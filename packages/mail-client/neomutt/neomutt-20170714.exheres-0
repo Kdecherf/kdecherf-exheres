@@ -5,3 +5,5 @@ require neomutt
 
 PLATFORMS="~amd64"
 
+DEFAULT_SRC_PREPARE_PATCHES=( "${FILES}/702-fix-use_default_colors.patch" )
+
