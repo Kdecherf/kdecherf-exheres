@@ -49,7 +49,6 @@ DEPENDENCIES="
         sasl? ( net-libs/cyrus-sasl )
         slang? ( sys-libs/slang )
         tokyocabinet? ( dev-db/tokyocabinet )
-        !mail-client/mutt [[ description = [ File collision with mail-client/mutt ] ]]
     suggestion:
         || (
             net-www/elinks

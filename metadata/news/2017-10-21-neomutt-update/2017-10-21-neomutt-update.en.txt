@@ -1,0 +1,15 @@
+Title: NeoMutt 20171013 update
+Author: Kevin Decherf <kevin@kdecherf.com>
+Content-Type: text/plain
+Posted: 2017-10-21
+Revision: 1
+News-Item-Format: 1.0
+Display-If-Installed: mail-client/neomutt[<20171013]
+
+NeoMutt has been bumped to 20171013.
+
+This version is the first to no longer use the term `mutt` in source code, thus
+binary, man files and system-wide configuration folder have been renamed to
+`neomutt`.
+
+The blocking dependency to mutt has been consequently removed.
