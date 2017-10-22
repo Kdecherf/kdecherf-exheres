@@ -1,0 +1,27 @@
+# Copyright 2017 Kevin Decherf <kevin@kdecherf.com>
+# Distributed under the terms of the GNU General Public License v2
+
+require github [ user="roddhjav" tag="v${PV}" ]
+
+SUMMARY="A pass extension that provides an easy flow for updating passwords"
+
+LICENCES="GPL-3"
+SLOT="0"
+PLATFORMS="~amd64"
+MYOPTIONS=""
+
+RESTRICT="test"
+
+DEPENDENCIES="
+    run:
+        app-admin/password-store[>=1.7.0]
+"
+
+src_compile() {
+    :
+}
+
+src_install() {
+    emake PREFIX="${IMAGE}/usr" LIBDIR="${IMAGE}/usr/$(exhost --target)/lib" install
+}
+
