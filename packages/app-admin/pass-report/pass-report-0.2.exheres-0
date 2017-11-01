@@ -1,0 +1,25 @@
+# Copyright 2017 Kevin Decherf <kevin@kdecherf.com>
+# Distributed under the terms of the GNU General Public License v2
+
+require github [ user="Kdecherf" tag="${PV}" ]
+
+SUMMARY="A pass extension that reports age and length of passwords"
+
+LICENCES="GPL-3"
+SLOT="0"
+PLATFORMS="~amd64"
+MYOPTIONS=""
+
+DEPENDENCIES="
+    run:
+        app-admin/password-store[>=1.7.0]
+"
+
+src_compile() {
+    :
+}
+
+src_install() {
+    emake PREFIX="${IMAGE}/usr" LIBDIR="${IMAGE}/usr/$(exhost --target)/lib" install
+}
+
