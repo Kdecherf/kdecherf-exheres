@@ -3,10 +3,7 @@
 # Based in part upon 'neomutt-20170225.ebuild' from Gentoo, which is:
 #     Copyright 1999-2017 Gentoo Foundation
 
-require autotools [ supported_autoconf=[ 2.5 ] supported_automake=[ 1.15 ] ]
 require github [ user="neomutt" tag="${PNV}" ]
-
-export_exlib_phases src_prepare
 
 SUMMARY="A text-based email client, based on mutt with added features"
 HOMEPAGE="https://www.neomutt.org/"
@@ -19,7 +16,6 @@ MYOPTIONS="
     idn
     notmuch [[ description = [ Add support of notmuch backend ] ]]
     sasl
-    sidebar [[ description = [ Add sidebar to mutt ] ]]
     smime
     ( providers: libressl openssl ) [[ number-selected = exactly-one ]]
     (
@@ -58,37 +54,29 @@ DEPENDENCIES="
 "
 
 DEFAULT_SRC_CONFIGURE_PARAMS=(
-    --enable-nls
-    --with-ssl
-    --sysconfdir=/etc/${PN}
-    --with-docdir=/usr/share/doc/${PNV}
+    --ssl
+    --homespool
     --with-homespool=.maildir
-    --with-regex
 
-    --enable-flock
+    --flock
     --disable-fcntl
-    --enable-nfs-fix
-    --enable-external-dotlock
 
-    --enable-imap
-    --enable-pop
-    --enable-smtp
-
-    # hcache
-    --enable-hcache
-    --without-bdb
-    --without-qdbm
-
-    --without-gnutls
+    --hates=datarootdir
+    --hates=enable-fast-install
 )
 
-DEFAULT_SRC_CONFIGURE_OPTIONS=( 'ncurses --with-curses' 'slang --with-slang' )
-DEFAULT_SRC_CONFIGURE_OPTION_ENABLES=( debug gpgme notmuch sidebar smime )
-DEFAULT_SRC_CONFIGURE_OPTION_WITHS=( gdbm idn sasl tokyocabinet )
+DEFAULT_SRC_CONFIGURE_OPTIONS=(
+        'debug --debug'
+        'gdbm --gdbm'
+        'gpgme --gpgme'
+        'idn --idn'
+        'ncurses --with-ui=ncurses'
+        'notmuch --notmuch'
+        'sasl --sasl'
+        'slang --with-ui=slang'
+        '!smime --disable-smime'
+        'tokyocabinet --tokyocabinet'
+)
 
-neomutt_src_prepare() {
-    default
-
-    edo autoreconf --install
-}
+DEFAULT_SRC_COMPILE_PARAMS=( CC_FOR_BUILD=${CC} )
 
