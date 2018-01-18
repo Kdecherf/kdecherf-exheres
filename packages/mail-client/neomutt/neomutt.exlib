@@ -69,7 +69,7 @@ DEFAULT_SRC_CONFIGURE_OPTIONS=(
         'debug --debug'
         'gdbm --gdbm'
         'gpgme --gpgme'
-        'idn --idn'
+        '!idn --disable-idn'
         'ncurses --with-ui=ncurses'
         'notmuch --notmuch'
         'sasl --sasl'
