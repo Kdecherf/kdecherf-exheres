@@ -1,44 +1,30 @@
 # Copyright 2014 Kevin Decherf <kevin@kdecherf.com>
+# Copyright 2018 Bjorn Pagen <bjornpagen@gmail.com>
 # Distributed under the terms of the GNU General Public License v2
 
-export_exlib_phases src_install src_prepare
+require github [ user="radare" ]
+require meson
 
-SUMMARY="the reverse engineering framework"
-HOMEPAGE="http://www.radare.org"
+export_exlib_phases src_configure
 
-DOWNLOADS="${HOMEPAGE}/get/${PNV}.tar.xz"
+SUMMARY="unix-like reverse engineering framework and commandline tools"
 
-LICENCES="GPL-2"
+LICENCES="GPL-3"
 SLOT="0"
-MYOPTIONS="openssl"
+MYOPTIONS="( providers: libressl openssl ) [[ number-selected = exactly-one ]]"
 
 DEPENDENCIES="
     build+run:
-        openssl? ( dev-libs/openssl )
+        providers:libressl? ( dev-libs/libressl:= )
+        providers:openssl? ( dev-libs/openssl )
 "
 
-DEFAULT_SRC_CONFIGURE_OPTION_WITHS=( 'openssl' )
-
-radare2_src_prepare()
-{
-    edo sed -e "/^CC_AR=/s/ar/${AR}/" \
-            -e "/^RANLIB=/s/ranlib/${RANLIB}/" \
-            -i mk/gcc.mk
-    edo sed -e "/^HOST_CC?=/s/gcc/${CC}/" \
-            -e "/^capstone-build:/s/ capstone//" \
-            -i shlr/Makefile
-    edo sed -e "s:\${PFX}/share/doc/radare2:${IMAGE}/usr/share/doc/${PNV}:" \
-            -i Makefile
-}
-
-radare2_src_install()
-{
-    default
-
-    local empty=(
-        "${IMAGE}"/usr/share/${PN}/${PV}/format/dll
-    )
-
-    edo find ${empty[@]} -type d -empty -delete
+radare2_src_configure() {
+    # For now, meson needs to clone capstone into the source tree
+    # This will change once their build system gains a configure flag
+    # for system wide capstone
+    esandbox disable_net
+    meson_src_configure
+    esandbox enable_net
 }
 
