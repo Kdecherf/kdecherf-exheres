@@ -58,8 +58,7 @@ DEFAULT_SRC_CONFIGURE_PARAMS=(
     --homespool
     --with-homespool=.maildir
 
-    --flock
-    --disable-fcntl
+    --with-lock=flock
 
     --hates=datarootdir
     --hates=enable-fast-install
