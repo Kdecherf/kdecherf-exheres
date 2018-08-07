@@ -15,6 +15,7 @@ MYOPTIONS="( providers: libressl openssl ) [[ number-selected = exactly-one ]]"
 
 DEPENDENCIES="
     build+run:
+        dev-libs/xxHash
         providers:libressl? ( dev-libs/libressl:= )
         providers:openssl? ( dev-libs/openssl )
 "
@@ -23,11 +24,13 @@ radare2_src_prepare() {
     sed -r "s/(cmd = \[')ar/\1${AR}/" -i "${MESON_SOURCE}/shlr/meson.build"
 }
 
+MESON_SRC_CONFIGURE_PARAMS=( "-Duse_sys_xxhash=true" )
+
 radare2_src_configure() {
     # radare2 needs to know the commit. It guesses it using git if available
     # If not, it means we are building a release and 0 is the default value to use
     # See https://github.com/radare/radare2/pull/10092
-    ever is_scm || MESON_SRC_CONFIGURE_PARAMS=( "-Dr2_version_commit=0" )
+    ever is_scm || MESON_SRC_CONFIGURE_PARAMS+=( "-Dr2_version_commit=0" )
     # For now, meson needs to clone capstone into the source tree
     # This will change once their build system gains a configure flag
     # for system wide capstone
