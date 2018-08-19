@@ -1,0 +1,31 @@
+# Copyright 2018 Arnaud Lefebvre <a.lefebvre@outlook.fr>
+# Distributed under the terms of the GNU General Public License v2
+
+require github [ user="Cyan4973" tag="v${PV}" ]
+
+SUMMARY="Extremely fast non-cryptographic hash algorithm"
+
+DESCRIPTION="
+xxHash is an extremely fast non-cryptographic hash algorithm, working at
+speeds close to RAM limits. It is proposed in two flavors, 32 and 64 bits.
+"
+
+HOMEPAGE="https://cyan4973.github.io/xxHash/"
+
+SLOT="0"
+PLATFORMS="~adm64 amd64"
+LICENCES="BSD-2 GPL-2"
+
+DEPENDENCIES=""
+OPTIONS=""
+
+src_install() {
+    local target=$(exhost --target)
+
+    emake DESTDIR="${IMAGE}" \
+        PREFIX="/usr" \
+        LIBDIR="/usr/${target}/lib" \
+        INCLUDEDIR="/usr/${target}/include" \
+        BINDIR="/usr/${target}/bin" \
+        install
+}
