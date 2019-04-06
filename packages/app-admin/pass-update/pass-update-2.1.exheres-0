@@ -10,6 +10,10 @@ SLOT="0"
 PLATFORMS="~amd64"
 MYOPTIONS=""
 
+DEFAULT_SRC_INSTALL_PARAMS=(
+    LIBDIR="/usr/$(exhost --target)/lib"
+)
+
 RESTRICT="test"
 
 DEPENDENCIES="
@@ -20,8 +24,3 @@ DEPENDENCIES="
 src_compile() {
     :
 }
-
-src_install() {
-    emake PREFIX="${IMAGE}/usr" LIBDIR="${IMAGE}/usr/$(exhost --target)/lib" install
-}
-
