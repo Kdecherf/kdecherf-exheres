@@ -1,0 +1,21 @@
+# Source: firefox-60.6.0/toolkit/mozapps/installer/linux/rpm/mozilla.desktop
+# This Source Code Form is subject to the terms of the Mozilla Public
+# License, v. 2.0. If a copy of the MPL was not distributed with this
+# file, You can obtain one at http://mozilla.org/MPL/2.0/.
+
+[Desktop Entry]
+Version=1.0
+Name=Mozilla Firefox (binary)
+GenericName=Web Browser
+Comment=Your web, the way you like it
+Exec=firefox-bin
+Icon=firefox-bin
+Terminal=false
+Type=Application
+StartupWMClass=firefox-bin
+MimeType=text/html;text/xml;application/xhtml+xml;application/vnd.mozilla.xul+xml;text/mml;x-scheme-handler/http;x-scheme-handler/https;
+StartupNotify=true
+X-MultipleArgs=false
+X-Desktop-File-Install-Version=0.16
+Categories=Network;WebBrowser;
+Encoding=UTF-8
