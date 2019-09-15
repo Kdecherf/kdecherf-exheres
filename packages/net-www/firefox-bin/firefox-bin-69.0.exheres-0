@@ -1,7 +1,8 @@
 # Copyright 2019 Alexander Kapshuna <kapsh@kap.sh>
 # Distributed under the terms of the GNU General Public License v2
 
-require gtk-icon-cache freedesktop-desktop
+require gtk-icon-cache
+require freedesktop-desktop
 
 SUMMARY="Firefox web browser (binary version)"
 HOMEPAGE="https://www.mozilla.com/en-US/firefox"
