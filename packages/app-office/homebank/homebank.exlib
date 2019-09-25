@@ -11,8 +11,9 @@ SLOT="0"
 
 DEPENDENCIES="
     build+run:
-        dev-libs/glib:2[>=2.34]
+        dev-libs/glib:2[>=2.39]
+        gnome-desktop/libsoup:2.4[>=2.26]
         x11-libs/cairo[>=1.14]
-        x11-libs/gtk+:3[>=3.6]
+        x11-libs/gtk+:3[>=3.16]
 "
 
