@@ -5,3 +5,8 @@ require neomutt
 
 PLATFORMS="~amd64"
 
+DEFAULT_SRC_PREPARE_PATCHES=(
+        "${FILES}"/1974.patch
+        "${FILES}"/1988.patch
+)
+

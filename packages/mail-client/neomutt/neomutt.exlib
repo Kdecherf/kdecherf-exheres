@@ -3,7 +3,7 @@
 # Based in part upon 'neomutt-20170225.ebuild' from Gentoo, which is:
 #     Copyright 1999-2017 Gentoo Foundation
 
-require github [ user="neomutt" tag="${PNV}" ]
+require github [ user="neomutt" tag="${PV}" ]
 
 SUMMARY="A text-based email client, based on mutt with added features"
 HOMEPAGE="https://www.neomutt.org/"
@@ -13,7 +13,10 @@ SLOT="0"
 MYOPTIONS="
     debug [[ description = [ Add debugging support and -d switch ] ]]
     gpgme [[ description = [ Enable support for gpgme ] ]]
-    idn
+    (
+        idn
+        idn2
+    ) [[ number-selected = at-most-one ]]
     notmuch [[ description = [ Add support of notmuch backend ] ]]
     sasl
     smime
@@ -38,6 +41,7 @@ DEPENDENCIES="
         gdbm? ( sys-libs/gdbm )
         gpgme? ( app-crypt/gpgme )
         idn? ( net-dns/libidn )
+        idn2? ( net-dns/libidn2:= )
         ncurses? ( sys-libs/ncurses )
         notmuch? ( mail-client/notmuch )
         providers:libressl? ( dev-libs/libressl:= )
@@ -69,6 +73,7 @@ DEFAULT_SRC_CONFIGURE_OPTIONS=(
         'gdbm --gdbm'
         'gpgme --gpgme'
         '!idn --disable-idn'
+        'idn2 --idn2'
         'ncurses --with-ui=ncurses'
         'notmuch --notmuch'
         'sasl --sasl'
@@ -78,4 +83,6 @@ DEFAULT_SRC_CONFIGURE_OPTIONS=(
 )
 
 DEFAULT_SRC_COMPILE_PARAMS=( CC_FOR_BUILD=${CC} )
+
+DEFAULT_SRC_TEST_PARAMS=( TZ=GMT )
 

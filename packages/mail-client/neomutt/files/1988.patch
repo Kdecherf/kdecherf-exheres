@@ -1,0 +1,130 @@
+Upstream: yes
+Source: https://github.com/neomutt/neomutt/pull/1988
+Reason: fix tests
+From 18217fbcb721f0d0ef8cd9bd23f329af42f9c4a1 Mon Sep 17 00:00:00 2001
+From: Kevin Decherf <kevin@kdecherf.com>
+Date: Sun, 24 Nov 2019 17:26:09 +0100
+Subject: [PATCH 1/2] tests: fix context for failing idna tests
+
+When acutest runs with --exec=never (e.g. in a sandbox),
+test_mutt_idna_intl_to_local and test_mutt_idna_local_to_intl fail.
+This is due to C_Charset being set by a previous job while expecting it
+to be null.
+
+This commit ensures that C_Charset, C_IdnEncode and C_IdnDecode are set
+back to their previous value when leaving rfc2047_decode, rfc2047_encode
+and mutt_addrlist_to_intl tests.
+
+Signed-off-by: Kevin Decherf <kevin@kdecherf.com>
+---
+ test/address/mutt_addrlist_to_intl.c | 8 ++++++++
+ test/rfc2047/rfc2047_decode.c        | 4 +++-
+ test/rfc2047/rfc2047_encode.c        | 4 +++-
+ 3 files changed, 14 insertions(+), 2 deletions(-)
+
+diff --git a/test/address/mutt_addrlist_to_intl.c b/test/address/mutt_addrlist_to_intl.c
+index a25473b8e..40cb7af07 100644
+--- a/test/address/mutt_addrlist_to_intl.c
++++ b/test/address/mutt_addrlist_to_intl.c
+@@ -52,8 +52,11 @@ void test_mutt_addrlist_to_intl(void)
+                          .intl = "test@xn--nixierhre-57a.nixieclock-tube.com" },
+                        { .local = "test@வலைப்பூ.com", .intl = "test@xn--xlcawl2e7azb.com" } };
+ 
++    char *P_Charset = C_Charset;
+     C_Charset = "utf-8";
+ #ifdef HAVE_LIBIDN
++    bool P_IdnEncode = C_IdnEncode;
++    bool P_IdnDecode = C_IdnDecode;
+     C_IdnEncode = true;
+     C_IdnDecode = true;
+ #endif
+@@ -72,5 +75,10 @@ void test_mutt_addrlist_to_intl(void)
+       TEST_CHECK_STR_EQ(local2intl[i].local, a->mailbox);
+       mutt_addrlist_clear(&al);
+     }
++    C_Charset = P_Charset;
++#ifdef HAVE_LIBIDN
++    C_IdnEncode = P_IdnEncode;
++    C_IdnDecode = P_IdnDecode;
++#endif
+   }
+ }
+diff --git a/test/rfc2047/rfc2047_decode.c b/test/rfc2047/rfc2047_decode.c
+index 710f9a368..27ba02daa 100644
+--- a/test/rfc2047/rfc2047_decode.c
++++ b/test/rfc2047/rfc2047_decode.c
+@@ -38,7 +38,7 @@ void test_rfc2047_decode(void)
+     TEST_MSG("Cannot set locale to (en_US|C).UTF-8");
+     return;
+   }
+-
++  char *previous_charset = C_Charset;
+   C_Charset = "utf-8";
+ 
+   {
+@@ -78,4 +78,6 @@ void test_rfc2047_decode(void)
+       FREE(&s);
+     }
+   }
++
++  C_Charset = previous_charset;
+ }
+diff --git a/test/rfc2047/rfc2047_encode.c b/test/rfc2047/rfc2047_encode.c
+index f5cc19270..aa6b1ba0e 100644
+--- a/test/rfc2047/rfc2047_encode.c
++++ b/test/rfc2047/rfc2047_encode.c
+@@ -38,7 +38,7 @@ void test_rfc2047_encode(void)
+     TEST_MSG("Cannot set locale to (en_US|C).UTF-8");
+     return;
+   }
+-
++  char *previous_charset = C_Charset;
+   C_Charset = "utf-8";
+ 
+   {
+@@ -73,4 +73,6 @@ void test_rfc2047_encode(void)
+       FREE(&s);
+     }
+   }
++
++  C_Charset = previous_charset;
+ }
+
+From 19de75f907dc3a9514ccd994f589bcffb0c2ab99 Mon Sep 17 00:00:00 2001
+From: Kevin Decherf <kevin@kdecherf.com>
+Date: Sun, 24 Nov 2019 17:34:02 +0100
+Subject: [PATCH 2/2] tests: fix test that would fail soon
+
+By using tm.tm_yday here, this test would trigger a failure when
+executed between the 1st and the 119th day of the year.
+
+Signed-off-by: Kevin Decherf <kevin@kdecherf.com>
+---
+ test/date/mutt_date_gmtime.c    | 2 +-
+ test/date/mutt_date_localtime.c | 2 +-
+ 2 files changed, 2 insertions(+), 2 deletions(-)
+
+diff --git a/test/date/mutt_date_gmtime.c b/test/date/mutt_date_gmtime.c
+index 933120eb2..95a030232 100644
+--- a/test/date/mutt_date_gmtime.c
++++ b/test/date/mutt_date_gmtime.c
+@@ -56,6 +56,6 @@ void test_mutt_date_gmtime(void)
+   {
+     TEST_CASE("Today");
+     struct tm tm = mutt_date_gmtime(MUTT_DATE_NOW);
+-    TEST_CHECK(tm.tm_yday >= 119);
++    TEST_CHECK(tm.tm_year >= 119);
+   }
+ }
+diff --git a/test/date/mutt_date_localtime.c b/test/date/mutt_date_localtime.c
+index 27a90c57c..dff4a89a3 100644
+--- a/test/date/mutt_date_localtime.c
++++ b/test/date/mutt_date_localtime.c
+@@ -58,6 +58,6 @@ void test_mutt_date_localtime(void)
+   {
+     TEST_CASE("Today");
+     struct tm tm = mutt_date_localtime(MUTT_DATE_NOW);
+-    TEST_CHECK(tm.tm_yday >= 119);
++    TEST_CHECK(tm.tm_year >= 119);
+   }
+ }
