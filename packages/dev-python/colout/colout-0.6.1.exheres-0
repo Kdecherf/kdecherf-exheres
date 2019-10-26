@@ -1,0 +1,19 @@
+# Copyright 2019 Kevin Decherf <kevin@kdecherf.com>
+# Distributed under the terms of the GNU General Public License v2
+
+require github [ user='nojhan' tag="v${PV}" ] setup-py [ import=setuptools blacklist=" " ]
+
+SUMMARY="Color text streams with a polished command line interface"
+
+LICENCES="GPL-3"
+SLOT="0"
+PLATFORMS="~amd64"
+
+MYOPTIONS=""
+
+DEPENDENCIES="
+    suggestion:
+        dev-python/Pygments[python_abis:*(-)?] [[ description = [ code syntax coloring support ] ]]
+        dev-python/Babel[python_abis:*(-)?] [[ description = [ locale-aware number parsing ] ]]
+"
+
