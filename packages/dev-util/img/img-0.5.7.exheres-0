@@ -1,0 +1,46 @@
+# Copyright 2019 Kevin Decherf <kevin@kdecherf.com>
+# Distributed under the terms of the GNU General Public License v2
+
+require github [ user=genuinetools tag=v${PV} ]
+
+SUMMARY="Standalone, daemon-less, unprivileged Dockerfile and OCI compatible container image builder"
+
+LICENCES="MIT"
+SLOT="0"
+PLATFORMS="~amd64"
+GO_PN="github.com/genuinetools/${PN}"
+
+MYOPTIONS="
+    seccomp
+"
+
+DEPENDENCIES="
+    build:
+        dev-lang/go[>=1.12]
+    run:
+        seccomp? ( sys-libs/libseccomp )
+        sys-apps/runc[seccomp?]
+"
+
+RESTRICT="test strip"
+
+src_prepare() {
+    edo mkdir -p "${WORKBASE}/gopath/bin"
+}
+
+src_compile() {
+    local TAGS=""
+    if option seccomp; then
+        TAGS="seccomp"
+    fi
+    GOPATH="${WORKBASE}/gopath" edo go build -mod vendor -tags "noembed ${TAGS}" -v -ldflags "-X ${GO_PN}/version.GITCOMMIT= -X ${GO_PN}/version.VERSION=${PV}" -o "${WORKBASE}/gopath/bin/img" .
+}
+
+src_install() {
+    dobin "${WORKBASE}/gopath/bin/img"
+}
+
+pkg_postinst() {
+    elog "Please ensure that your non-root user is set in /etc/subuid and /etc/subgid in order to"
+    elog "build images and that the count is large enough."
+}
