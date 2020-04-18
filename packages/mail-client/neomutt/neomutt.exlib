@@ -5,8 +5,14 @@
 
 require github [ user="neomutt" tag="${PV}" ]
 
+export_exlib_phases src_test
+
 SUMMARY="A text-based email client, based on mutt with added features"
 HOMEPAGE="https://www.neomutt.org/"
+
+DOWNLOADS+="
+   https://github.com/neomutt/neomutt-test-files/archive/master.tar.gz -> neomutt-test-files-master.tar.gz
+"
 
 LICENCES="GPL-2"
 SLOT="0"
@@ -86,3 +92,11 @@ DEFAULT_SRC_COMPILE_PARAMS=( CC_FOR_BUILD=${CC} )
 
 DEFAULT_SRC_TEST_PARAMS=( TZ=GMT )
 
+neomutt_src_test() {
+    export NEOMUTT_TEST_DIR="${WORKBASE}/neomutt-test-files-master"
+    edo pushd ${NEOMUTT_TEST_DIR}
+    edo ./setup.sh
+    edo popd
+
+    default
+}
