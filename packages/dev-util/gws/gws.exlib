@@ -10,6 +10,11 @@ SUMMARY="Colorful KISS helper for git workspaces"
 LICENCES="MIT"
 SLOT="0"
 
+DEPENDENCIES="
+    run:
+        dev-scm/git
+"
+
 gws_src_install() {
     dobin src/gws
     dobashcompletion completions/bash gws
