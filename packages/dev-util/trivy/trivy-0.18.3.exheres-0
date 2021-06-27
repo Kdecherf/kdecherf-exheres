@@ -1,0 +1,35 @@
+# Copyright 2021 Kevin Decherf <kevin@kdecherf.com>
+# Distributed under the terms of the GNU General Public License v2
+
+require github [ user=aquasecurity tag=v${PV} ]
+
+SUMMARY="A Simple and Comprehensive Vulnerability Scanner for Container Images, Git Repositories and Filesystems"
+
+LICENCES="Apache-2.0"
+SLOT="0"
+PLATFORMS="~amd64"
+
+DEPENDENCIES="
+    build:
+        dev-lang/go[>=1.16]
+"
+
+RESTRICT="strip"
+
+src_unpack() {
+    default
+
+    edo pushd "${WORK}"
+    esandbox disable_net
+    edo go mod download -x
+    esandbox enable_net
+    edo popd
+}
+
+src_compile() {
+    edo make build VERSION=${PV}
+}
+
+src_install() {
+    dobin ${WORK}/trivy
+}
