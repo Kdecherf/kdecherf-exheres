@@ -16,7 +16,7 @@ MYOPTIONS="
 
 DEPENDENCIES="
     build:
-        dev-lang/go[>=1.12]
+        dev-lang/go[>=1.13]
     run:
         seccomp? ( sys-libs/libseccomp )
         sys-apps/runc[seccomp?]
