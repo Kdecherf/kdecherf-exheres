@@ -11,7 +11,7 @@ SUMMARY="A text-based email client, based on mutt with added features"
 HOMEPAGE="https://www.neomutt.org/"
 
 DOWNLOADS+="
-   https://github.com/neomutt/neomutt-test-files/archive/master.tar.gz -> neomutt-test-files-master.tar.gz
+   https://github.com/neomutt/neomutt-test-files/archive/main.tar.gz -> neomutt-test-files-main.tar.gz
 "
 
 LICENCES="GPL-2"
@@ -93,7 +93,7 @@ DEFAULT_SRC_COMPILE_PARAMS=( CC_FOR_BUILD=${CC} )
 DEFAULT_SRC_TEST_PARAMS=( TZ=GMT )
 
 neomutt_src_test() {
-    export NEOMUTT_TEST_DIR="${WORKBASE}/neomutt-test-files-master"
+    export NEOMUTT_TEST_DIR="${WORKBASE}/neomutt-test-files-main"
     edo pushd ${NEOMUTT_TEST_DIR}
     edo ./setup.sh
     edo popd
