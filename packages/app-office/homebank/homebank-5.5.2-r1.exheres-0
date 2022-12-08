@@ -1,0 +1,10 @@
+# Copyright 2013 Kevin Decherf <kevin@kdecherf.com>
+# Distributed under the terms of the GNU General Public License v2
+
+require homebank
+
+PLATFORMS="~amd64"
+DOWNLOADS="http://homebank.free.fr/public/${PNV}.tar.gz"
+
+DEFAULT_SRC_PREPARE_PATCHES=( "${FILES}/fix-install-locale.patch" )
+
